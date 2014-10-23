@@ -1,0 +1,22 @@
+body{
+    background-color: #f4f4f4;
+}
+.d-container{
+    margin: 0 auto;
+    padding: 12px;
+    max-width: 768px;
+}
+.i-container{
+    padding: 12px;
+}
+.movie{
+    padding: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    background-color: #FEFEFE;
+    margin-top: 18px;
+    margin-bottom: 18px;
+
+}
+.mb{
+    margin-bottom: 12px;
+}

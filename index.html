@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies I liked</title>
+    <meta name="description" content="react.js demo app">
+    <meta name="keywords" content="react.js, react, js, framework, demo">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="assets/foundation-5.4.6/css/normalize.css">
+    <link rel="stylesheet" href="assets/foundation-5.4.6/css/foundation.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<!-- main container -->
+<div class="d-container">
+    <div class="i-container">
+        <!-- start nav bar -->
+        <nav class="top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="#">Movies I Liked</a></h1>
+                </li>
+            </ul>
+            <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                    <li class="active"><a href="https://github.com/ilimturan/movies-i-liked">The code on the github</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+        <!-- end of main container -->
+        <!-- content here -->
+        <div id="content">
+        </div>
+        <!-- end of content -->
+    </div>
+</div>
+<!-- end of main container -->
+<!-- get jquery library -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+<!-- get react.js library -->
+<script src="http://fb.me/react-0.11.2.js"></script>
+<script src="http://fb.me/JSXTransformer-0.11.2.js"></script>
+<!-- react.js code -->
+<script type="text/jsx">
+/*** @jsx React.DOM */
+var appJsonData = {
+    appname: "Movies I liked",
+    version: "0.0.1",
+    movies: [
+        {
+            iId: "tt0114369",
+            yId: "J4YV2_TcCoE"
+        },
+        {
+            iId: "tt0209144",
+            yId: "0vS0E9bBSL0"
+        },
+        {
+            iId: "tt0062622",
+            yId: "Z2UWOeBcsJI"
+        },
+        {
+            iId: "tt0181689",
+            yId: "q2bmImPNKbM"
+        },
+        {
+            iId: "tt1375666",
+            yId: "66TuSJo4dZM"
+        },
+        {
+            iId: "tt0468569",
+            yId: "yQ5U8suTUw0"
+        },
+        {
+            iId: "tt0110912",
+            yId: "ewlwcEBTvcg"
+        },
+        {
+            iId: "tt0050083",
+            yId: "A7CBKT0PWFA"
+        },
+        {
+            iId: "tt0137523",
+            yId: "SUXWAEX2jlg"
+        },
+        {
+            iId: "tt0109830",
+            yId: "uPIEn0M8su0"
+        },
+        {
+            iId: "tt0073486",
+            yId: "2WSyJgydTsA"
+        },
+        {
+            iId: "tt0114814",
+            yId: "9MjV4EwR7Mg"
+        },
+        {
+            iId: "tt0102926",
+            yId: "lQKs169Sl0I"
+        },
+        {
+            iId: "tt0110413",
+            yId: "DcsirofJrlM"
+        },
+        {
+            iId: "tt0120586",
+            yId: "jXaZENPQrsw"
+        },
+        {
+            iId: "tt0320661",
+            yId: "oO6pCRe3pM"
+        },
+        {
+            iId: "tt0482571",
+            yId: "o4gHCmTQDVI"
+        },
+        {
+            iId: "tt0105236",
+            yId: "QvoKT481EmU"
+        },
+        {
+            iId: "tt0361748",
+            yId: "-2cRY4p7KIk"
+        },
+        {
+            iId: "tt1360860",
+            yId: "6HbIRRM-ffc"
+        },
+        {
+            iId: "tt0086250",
+            yId: "7pQQHnqBa2E"
+        },
+        {
+            iId: "tt0118715",
+            yId: "cd-go0oBF4Y"
+        },
+        {
+            iId: "tt0477348",
+            yId: "YOohAwZOSGo"
+        },
+        {
+            iId: "tt1255953",
+            yId: "YDf-XuYid1A"
+        },
+        {
+            iId: "tt0060827",
+            yId: "3rtSjV_gFkw"
+        }
+    ]
+};
+
+var App = React.createClass({
+    render: function(){
+        console.log(this)
+        return (
+            <div>
+                <MovieList dataMovies={this.props.appJsonData.movies} />
+            </div>
+            )
+    }
+
+});
+
+var Movie = React.createClass({
+    getInitialState: function(){
+        return {
+            title: "",
+            genre: "",
+            year: "",
+            poster: "",
+            director: "",
+            writer: "",
+            actors: "",
+            rating: ""
+        }
+    },
+    componentDidMount: function() {
+        $.get("http://www.omdbapi.com/?i=" + this.props.iId, function(result) {
+            var iMovie = $.parseJSON(result);
+            if (this.isMounted()) {
+                this.setState({
+                    title: iMovie.Title,
+                    genre: iMovie.Genre,
+                    year: iMovie.Year,
+                    poster: iMovie.Poster,
+                    director: iMovie.Director,
+                    writer: iMovie.Writer,
+                    actors: iMovie.Actors,
+                    rating: iMovie.imdbRating
+                });
+            }
+        }.bind(this));
+    },
+    render: function(){
+        return (
+            <div className="row movie">
+                <div className="large-12 medium-12 small-12 columns">
+                    <h2>{this.state.title}</h2>
+                    <h6 className="subheader">{this.state.genre} <span className="radius secondary label">{this.state.year} </span></h6>
+                </div>
+                <ImagePoster imgUrl={this.state.poster} />
+                <Cast   director={this.state.director}
+                        writer={this.state.writer}
+                        actors={this.state.actors}
+                        rating={this.state.rating}
+                        iId={this.state.iId}
+                />
+                <Youtube youtubeId={this.props.yId} />
+            </div>
+            )
+    }
+});
+
+var Cast = React.createClass({
+    render: function() {
+        return (
+            <div className="large-6 medium-6 small-12 columns mb">
+                <h6 className="subheader">Director</h6>
+                <h4>{this.props.director}</h4>
+                <h6 className="subheader">Writer</h6>
+                <h4>{this.props.writer}</h4>
+                <h6 className="subheader">Actors</h6>
+                <h6>{this.props.actors}</h6>
+                <h6 className="subheader">Rating</h6>
+                <h6><span className="round alert label">{this.props.rating}</span></h6>
+            </div>
+            );
+    }
+});
+
+var ImagePoster = React.createClass({
+    render: function() {
+        return (
+            <div className="large-6 medium-6 small-12 columns mb">
+                <a class="th" href="#">
+                    <img src={this.props.imgUrl}></img>
+                </a>
+            </div>
+            );
+    }
+});
+
+var Youtube = React.createClass({
+    render: function() {
+        return (
+            <div className="large-12 medium-12 small-12 columns">
+                <div className="flex-video">
+                    <iframe src={"http://www.youtube.com/embed/"+ this.props.youtubeId}
+                    class="v-youtube"
+                    width="640"
+                    height="320"
+                    frameborder="0"
+                    allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            );
+    }
+});
+
+var MovieList = React.createClass({
+    render: function(){
+        var movies = this.props.dataMovies.map(function(movie){
+            return <Movie iId={movie.iId} yId={movie.yId} />
+        });
+        return (<div className="">{movies}</div>)
+    }
+});
+
+React.renderComponent(<App appJsonData={appJsonData} />, document.getElementById("content"))
+</script>
+</body>
+</html>
