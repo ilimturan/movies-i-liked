@@ -177,7 +177,9 @@ var Movie = React.createClass({
         }
     },
     componentDidMount: function() {
-        $.get("http://www.omdbapi.com/?i=" + this.props.iId, function(result) {
+        $.get("http://www.omdbapi.com/?i=" + this.props.iId + "&apikey=57084f79", function(result) {
+            
+            
             var iMovie = $.parseJSON(result);
             if (this.isMounted()) {
                 this.setState({
