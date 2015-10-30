@@ -163,6 +163,7 @@ var App = React.createClass({
 
 });
 
+
 var Movie = React.createClass({
     getInitialState: function(){
         return {
@@ -177,10 +178,7 @@ var Movie = React.createClass({
         }
     },
     componentDidMount: function() {
-        $.get("http://www.omdbapi.com/?i=" + this.props.iId + "&apikey=57084f79", function(result) {
-            
-            
-            var iMovie = $.parseJSON(result);
+        $.get("http://www.omdbapi.com/?i=" + this.props.iId + "&apikey=57084f79", function(iMovie) {
             if (this.isMounted()) {
                 this.setState({
                     title: iMovie.Title,
